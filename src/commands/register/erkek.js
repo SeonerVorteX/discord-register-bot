@@ -1,6 +1,7 @@
 const { Owners, Footer } = global.client.settings;
-const { guildTags, guildDiscriminator, botYt, registration, unregister } = global.client.guildSettings;
+const { guildTags, guildDiscriminator, guildChat, botYt, registration, unregister, quarantine } = global.client.guildSettings;
 const { staffs, limit, requireTag, penalBlockLimit, penalPointBlockLimit, log, man, woman, vip } = registration;
+const { quarantineDateLimit } = quarantine;
 const { manRole, otherManRoles } = man;
 const { unregisterRole } = unregister;
 const { womanRole } = woman;
@@ -31,6 +32,8 @@ module.exports = {
     async execute(client, message, args, Embed) {
 
         let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
+        let chat = message.guild.channels.cache.get(guildChat);
+        let channel = message.guild.channels.cache.get(log);
         
         if(!manRole) return message.channel.error(message, Embed.setDescription(`Kayıt rolleri ayarlanmamış, lütfen botun yapımcısıyla iletişime geçin!`), { timeout: 15000, react: true });
         if(!args[0]) return message.channel.error(message, Embed.setDescription(`Erkek olarak kayıt edilecek üyeyi belirtmelisin!`), { timeout: 8000, react: true });
@@ -41,11 +44,13 @@ module.exports = {
         if(user.roles.highest.position >= message.member.roles.highest.position) return message.channel.error(message, Embed.setDescription(`Seninle aynı veya daha yüksek rolde olan birine bu işlemi uygulayamazsın!`), { react: true });
         if(user.roles.cache.has(manRole) || user.roles.cache.has(womanRole)) return message.channel.error(message, Embed.setDescription(`Belirttiğin üye zaten kayıtlı!`), { timeout: 8000, react: true });
         
+        let security = await client.checkSecurity(member.user, quarantineDateLimit);
         let userPenals = await penals.find({ guildID: message.guild.id, userID: user.id });
         let userPoint = await penalPoints.findOne({ guildID: message.guild.id, userID: user.id });
         let staffDatas = await registers.find({ guildID: message.guild.id, staffID: message.author.id });
         staffDatas = staffDatas.filter(staffData => staffData.date && (Date.now() - staffData.date) < 600 * 1000);
         
+        if(!Owners.includes(message.author.id) && !message.member.hasPermission(8) && !security) return message.channel.error(message, Embed.setDescription(`Belirtilen üyenin hesabı yakın bir zamanda açıldığı için kayıt olmaya uygun değildir, lütfen \`Yönetici\` yetkisine sahip yetkililere ulaş!`), { timeout: 10000 , react: true });
         if(!Owners.includes(message.author.id) && !message.member.hasPermission(8) && userPenals.length && userPenals.length >= penalBlockLimit) return message.channel.error(message, Embed.setDescription(`Belirttiğin üye **${userPenals.length}** ceza kaydına sahip. Sunucu güvenliği için içeri alınamaz, lütfen \`Yönetici\` yetkisine sahip yetkililere ulaş!`), { timeout: 10000, react: true });
         if(!Owners.includes(message.author.id) && !message.member.hasPermission(8) && userPoint && penalPointBlockLimit && userPoint.penalPoint >= penalPointBlockLimit) return message.channel.error(message, Embed.setDescription(`Belirttiğin üye **${userPoint.penalPoint}** ceza puanına sahip. Sunucu güvenliği için içeri alınamaz, lütfen \`Yönetici\` yetkisine sahip yetkililere ulaş!`), { timeout: 10000, react: true });
         if(!Owners.includes(message.author.id) && !message.member.hasPermission(8) && message.member.roles.cache.has(botYt) && limit > 0 && staffDatas.length >= limit) return message.channel.error(message, Embed.setDescription(`Üyeleri çok hızlı kayıt ediyorsun, biraz sonra tekrar dene!`), { timeout: 10000, react: true });
@@ -73,8 +78,8 @@ module.exports = {
         
         staffDatas = await registers.find({ guildID: message.guild.id, staffID: message.author.id });
         message.channel.success(message, Embed.setFooter(`${Footer} • Toplam kayıt sayınız : ${staffDatas.length}`).setDescription(`${user.toString()} adlı üye ${message.guild.roles.cache.get(manRole).toString()} olarak kayıt edildi!`), { react: true });
-        let channel = message.guild.channels.cache.get(log);
 
+        if(chat && chat.type == 'text') chat.send(`${user.toString()} kullanıcısı kayıt olarak aramıza katıldı!`);
         if(channel && channel.type == 'text') channel.send(Embed.setFooter(Footer).setDescription(`
 ${user.toString()} üyesi **erkek** olarak kayıt edildi :
 

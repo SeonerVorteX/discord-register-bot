@@ -20,7 +20,7 @@ module.exports = async (oldUser, newUser) => {
     if(tags.length || discriminator) {
 
         if(role && !member.roles.cache.has(role.id)) member.roles.add(role.id).catch(() => {});
-        if(chat) chat.send(`${newUser.toString()} kullanıcısı ${tags.length > 1 || (tags.length && discriminator) ? `(${tags.map(tag => `\`${tag}\``).join(' , ')}${discriminator ? `, \`#${guildDiscriminator}\`` : ``}) taglarımızı` : `(${guildTags.length ? `\`${guildTags[0]}\`` : `\`#${guildDiscriminator}\``}) tagımızı`} alarak aramıza katıldı`);
+        if(chat) chat.send(`${newUser.toString()} kullanıcısı ${tags.length > 1 || (tags.length && discriminator) ? `(${tags.map(tag => `\`${tag}\``).join(' , ')}${discriminator ? `, \`#${guildDiscriminator}\`` : ``}) taglarımızı` : `(${guildTags.length ? `\`${guildTags[0]}\`` : `\`#${guildDiscriminator}\``}) tagımızı`} alarak aramıza katıldı!`);
         if(tLog) tLog.send(Embed.setDescription(`${newUser.toString()} kullanıcısı ${tags.length > 1 || (tags.length && discriminator) ? `(${tags.map(tag => `\`${tag}\``).join(' , ')}${discriminator ? `, \`#${guildDiscriminator}\`` : ``}) taglarımızı` : `${guildTags.length ? `\`${guildTags[0]}\`` : `\`#${guildDiscriminator}\``} tagımızı`} ${role && !member.roles.cache.has(role.id) ? `aldığı için ${member.guild.roles.cache.get(role.id).toString()} rolü verildi!` : `aldı!`}`));
 
         newUser.send(`${tags.length > 1 || (tags.length && discriminator) ? `(${tags.map(tag => `\`${tag}\``).join(' , ')}${discriminator ? `, \`#${guildDiscriminator}\`` : ``}) taglarımızı` : `${guildTags.length ? `\`${guildTags[0]}\`` : `\`#${guildDiscriminator}\``} tagımızı`} alıp bizi desteklediğin için teşekkür ederiz. Ekibimize Hoş Geldin!`).catch(() => {});

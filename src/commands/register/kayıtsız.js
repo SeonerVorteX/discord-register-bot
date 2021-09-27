@@ -60,7 +60,7 @@ module.exports = {
                 options.unregisterRole = unregisterRole;
                 options.unregisterStaff = message.author.id;
                 options.unregisterDate = Date.now();
-                await registers.findOneAndUpdate({ row: firstData.id, guildID: message.guild.id, userID: user.id }, { $set: { options: options } });
+                await registers.findOneAndUpdate({ row: firstData.row, guildID: message.guild.id, userID: user.id }, { $set: { options: options } });
 
             } else {
 
@@ -69,7 +69,7 @@ module.exports = {
                 options.unregisterRole = unregisterRole;
                 options.unregisterStaff = message.author.id;
                 options.unregisterDate = Date.now();
-                await registers.findOneAndUpdate({ row: firstData.id, guildID: message.guild.id, userID: user.id }, { $set: { completed: true, options: options } });
+                await registers.findOneAndUpdate({ row: firstData.row, guildID: message.guild.id, userID: user.id }, { $set: { completed: true, options: options } });
 
             };
 

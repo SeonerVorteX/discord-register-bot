@@ -1,7 +1,8 @@
 const { adds, curses } = global.client;
 const { Owners, Footer } = global.client.settings;
-const { botYt, registration } = global.client.guildSettings;
+const { botYt, registration, quarantine } = global.client.guildSettings;
 const { unifying, nameTag, staffs, minAge, maxAge, limit, penalBlockLimit, penalPointBlockLimit, log, man, woman } = registration;
+const { quarantineDateLimit } = quarantine;
 const { manRole } = man;
 const { womanRole } = woman;
 const penals = require('../../schemas/penals.js');
@@ -38,6 +39,7 @@ module.exports = {
         if(staffs.some(role => user.roles.cache.has(role)) || user.roles.cache.has(botYt) || user.hasPermission('MANAGE_ROLES')) return message.channel.error(message, Embed.setDescription(`Yetkili birine bu işlemi uygulayamazsın!`), { timeout: 8000, react: true });
         if(user.roles.highest.position >= message.member.roles.highest.position) return message.channel.error(message, Embed.setDescription(`Seninle aynı veya daha yüksek rolde olan birine bu işlemi uygulayamazsın!`), { react: true });
         
+        let security = await client.checkSecurity(member.user, quarantineDateLimit);
         let userPenals = await penals.find({ guildID: message.guild.id, userID: user.id });
         let penalPoint = await penalPoints.findOne({ guildID: message.guild.id, userID: user.id });
         let staffDatas = await registers.find({ guildID: message.guild.id });
@@ -52,6 +54,7 @@ module.exports = {
             
         });
         
+        if(!Owners.includes(message.author.id) && !message.member.hasPermission(8) && !security) return message.channel.error(message, Embed.setDescription(`Belirtilen üyenin hesabı yakın bir zamanda açıldığı için ismi değiştirilmeye uygun değildir, lütfen \`Yönetici\` yetkisine sahip yetkililere ulaş!`), { timeout: 10000 , react: true });
         if(!Owners.includes(message.author.id) && !message.member.hasPermission(8) && userPenals.length && userPenals.length && userPenals.length >= penalBlockLimit) return message.channel.error(message, Embed.setDescription(`Belirttiğin üye **${userPenals.length}** ceza kaydına sahip. Sunucu güvenliği için bu işlem uygulanamaz, lütfen \`Yönetici\` yetkisine sahip yetkililere ulaş!`), { timeout: 8000, react: true });
         if(!Owners.includes(message.author.id) && !message.member.hasPermission(8) && penalPoint && penalPointBlockLimit && penalPoint.penalPoint >= penalPointBlockLimit) return message.channel.error(message, Embed.setDescription(`Belirttiğin üye **${penalPoint.penalPoint}** ceza puanına sahip. Sunucu güvenliği için bu işlem uygulanamaz, lütfen \`Yönetici\` yetkisine sahip yetkililere ulaş!`), { timeout: 10000, react: true });
         if(!Owners.includes(message.author.id) && !message.member.hasPermission(8) && message.member.roles.cache.has(botYt) && limit > 0 && dataArray.length >= limit) return message.channel.error(message, Embed.setDescription(`Üyelerin ismini çok hızlı değiştiriyorsun, biraz sonra tekrar dene!`), { timeout: 8000, react: true });
@@ -94,7 +97,7 @@ module.exports = {
             if(datas.length) {
 
                 let firstData = datas[0];
-                data = await registers.findOneAndUpdate({ row: firstData.id, guildID: message.guild.id, userID: user.id }, { $push: { nameArray: { name: user.displayName, staffID: message.author.id, date: Date.now() } } });
+                data = await registers.findOneAndUpdate({ row: firstData.row, guildID: message.guild.id, userID: user.id }, { $push: { nameArray: { name: user.displayName, staffID: message.author.id, date: Date.now() } } });
 
             } else {
 

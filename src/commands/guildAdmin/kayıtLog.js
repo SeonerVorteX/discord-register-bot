@@ -38,7 +38,8 @@ module.exports = {
 ${success ? success : ``} ${user.toString()} isimli kullanıcının **${datas.length}** kayıt bilgisi bulundu :
 
 ${datas.splice(0, 7).map(data => `
-**Kayıt Sırası :** \`${data.row}\`
+**Sıra :** \`${data.row}\`
+**Cinsiyyet :** ${data.gender && data.gender == 'MAN' ? ` \`Erkek\`` : data.gender && data.gender == 'WOMAN' ? ` \`Kadın\`` : `\`Bilinmiyor!\``}
 **Kayıt Eden Yetkili :** ${message.guild.members.cache.has(data.staffID) ? message.guild.members.cache.get(data.staffID).toString() : `<@${data.staffID}>`} ${data.nameArray.length ? `\n**Kayıt Edildiği Son İsim :** \`${data.nameArray[data.nameArray.length-1].name}\`` : ``}
 **Kayıt Edilme Tarihi :** \`${moment(data.date).format('DD MMMM YYYY (HH:mm)')}\`
 `).join('**──────────────────────────**')}      
@@ -69,7 +70,8 @@ ${datas.splice(0, 7).map(data => `
 ${success ? success : ``} ${user.toString()} kullanıcısının kayıt bilgileri :
 
 ${pages[currentPage-1].map(data => `
-**Kayıt Sırası :** \`${data.row}\`
+**Sıra :** \`${data.row}\`
+**Cinsiyyet :** ${data.gender && data.gender == 'MAN' ? ` \`Erkek\`` : data.gender && data.gender == 'WOMAN' ? ` \`Kadın\`` : `\`Bilinmiyor!\``}
 **Kayıt Eden Yetkili :** ${message.guild.members.cache.has(data.staffID) ? message.guild.members.cache.get(data.staffID).toString() : `<@${data.staffID}>`} ${data.nameArray.length ? `\n**Kayıt Edildiği Son İsim :** \`${data.nameArray[data.nameArray.length-1].name}\`` : ``}
 **Kayıt Edilme Tarihi :** \`${moment(data.date).format('DD MMMM YYYY (HH:mm)')}\`
                         `).join('**──────────────────────────**')}  
@@ -86,7 +88,8 @@ ${pages[currentPage-1].map(data => `
 ${success ? success : ``} ${user.toString()} kullanıcısının kayıt bilgileri :
 
 ${pages[currentPage-1].map(data => `
-**Kayıt Sırası :** \`${data.row}\`
+**Sıra :** \`${data.row}\`
+**Cinsiyyet :** ${data.gender && data.gender == 'MAN' ? ` \`Erkek\`` : data.gender && data.gender == 'WOMAN' ? ` \`Kadın\`` : `\`Bilinmiyor!\``}
 **Kayıt Eden Yetkili :** ${message.guild.members.cache.has(data.staffID) ? message.guild.members.cache.get(data.staffID).toString() : `<@${data.staffID}>`} ${data.nameArray.length ? `\n**Kayıt Edildiği Son İsim :** \`${data.nameArray[data.nameArray.length-1].name}\`` : ``}
 **Kayıt Edilme Tarihi :** \`${moment(data.date).format('DD MMMM YYYY (HH:mm)')}\`
                         `).join('**──────────────────────────**')}  
@@ -129,7 +132,8 @@ ${pages[currentPage-1].map(data => `
 ${success ? success : ``} ${message.author.toString()} isimli kullanıcının **${datas.length}** kayıt bilgisi bulundu :
 
 ${datas.splice(0, 7).map(data => `
-**Kayıt Sırası :** \`${data.row}\`
+**Sıra :** \`${data.row}\`
+**Cinsiyyet :** ${data.gender && data.gender == 'MAN' ? ` \`Erkek\`` : data.gender && data.gender == 'WOMAN' ? ` \`Kadın\`` : `\`Bilinmiyor!\``}
 **Kayıt Eden Yetkili :** ${message.guild.members.cache.has(data.staffID) ? message.guild.members.cache.get(data.staffID).toString() : `<@${data.staffID}>`} ${data.nameArray.length ? `\n**Kayıt Edildiği Son İsim :** \`${data.nameArray[data.nameArray.length-1].name}\`` : ``}
 **Kayıt Edilme Tarihi :** \`${moment(data.date).format('DD MMMM YYYY (HH:mm)')}\`
 `).join('**──────────────────────────**')}
@@ -160,7 +164,8 @@ ${datas.splice(0, 7).map(data => `
 ${success ? success : ``} ${user.toString()} kullanıcısının kayıt bilgileri :
 
 ${pages[currentPage-1].map(data => `
-**Kayıt Sırası :** \`${data.row}\`
+**Sıra :** \`${data.row}\`
+**Cinsiyyet :** ${data.gender && data.gender == 'MAN' ? ` \`Erkek\`` : data.gender && data.gender == 'WOMAN' ? ` \`Kadın\`` : `\`Bilinmiyor!\``}
 **Kayıt Eden Yetkili :** ${message.guild.members.cache.has(data.staffID) ? message.guild.members.cache.get(data.staffID).toString() : `<@${data.staffID}>`} ${data.nameArray.length ? `\n**Kayıt Edildiği Son İsim :** \`${data.nameArray[data.nameArray.length-1].name}\`` : ``}
 **Kayıt Edilme Tarihi :** \`${moment(data.date).format('DD MMMM YYYY (HH:mm)')}\`
                         `).join('**──────────────────────────**')}  
@@ -177,7 +182,8 @@ ${pages[currentPage-1].map(data => `
 ${success ? success : ``} ${user.toString()} kullanıcısının kayıt bilgileri :
 
 ${pages[currentPage-1].map(data => `
-**Kayıt Sırası :** \`${data.row}\`
+**Sıra :** \`${data.row}\`
+**Cinsiyyet :** ${data.gender && data.gender == 'MAN' ? ` \`Erkek\`` : data.gender && data.gender == 'WOMAN' ? ` \`Kadın\`` : `\`Bilinmiyor!\``}
 **Kayıt Eden Yetkili :** ${message.guild.members.cache.has(data.staffID) ? message.guild.members.cache.get(data.staffID).toString() : `<@${data.staffID}>`} ${data.nameArray.length ? `\n**Kayıt Edildiği Son İsim :** \`${data.nameArray[data.nameArray.length-1].name}\`` : ``}
 **Kayıt Edilme Tarihi :** \`${moment(data.date).format('DD MMMM YYYY (HH:mm)')}\`
                         `).join('**──────────────────────────**')}  

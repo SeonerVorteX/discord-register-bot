@@ -1,6 +1,7 @@
 const { Owners, Footer } = global.client.settings;
-const { unAuthorizedMessages, botYt, registration } = global.client.guildSettings;
+const { unAuthorizedMessages, botYt, registration, quarantine } = global.client.guildSettings;
 const { staffs, penalBlockLimit, log, vip, man, woman } = registration;
+const { quarantineDateLimit } = quarantine;
 const { vipRole, onlyAdmins, dailyVipLimit } = vip;
 const { manRole } = man;
 const { womanRole } = woman;
@@ -13,7 +14,7 @@ moment.locale('tr');
 
 module.exports = {
     name: 'vip',
-    aliases: [],
+    aliases: ['v'],
     category: 'Yetkili',
     usage: '<@Üye/ID>',
     guildOnly: true,
@@ -28,7 +29,7 @@ module.exports = {
 
     async execute(client, message, args, Embed) {
 
-        if(onlyAdmins && (!Owners.includes(message.author.id) || !message.member.hasPermission(8) || !message.member.roles.cache.has(botYt) || !staffs.some(role => message.member.roles.cache.has(role)))) {
+        if(onlyAdmins && (!Owners.includes(message.author.id) && !message.member.hasPermission(8) && !message.member.roles.cache.has(botYt) && !staffs.some(role => message.member.roles.cache.has(role)))) {
             if(unAuthorizedMessages) return message.channel.error(message, `Maalesef, bu komutu kullana bilmek için yeterli yetkiye sahip değilsin!`, { timeout: 10000 });
             else return;
         };;
@@ -44,11 +45,13 @@ module.exports = {
         if(user.roles.highest.position >= message.member.roles.highest.position) return message.channel.error(message, Embed.setDescription(`Seninle aynı veya daha yüksek rolde olan birine bu işlemi uygulayamazsın!`), { react: true });
         if(user.roles.cache.has(vipRole)) return message.channel.error(message, Embed.setDescription(`Belirttiğin üye zaten vip rolüne sahip!`), { timeout: 8000, react: true });
 
+        let security = await client.checkSecurity(member.user, quarantineDateLimit);
         let userPenals = await penals.find({ guildID: message.guild.id, userID: user.id });
         let userPoint = await penalPoints.findOne({ guildID: message.guild.id, userID: user.id });
         let staffDatas = await registers.find({ guildID: message.guild.id });
         staffDatas.filter(staffData => staffData.options && staffData.options.vip && staffData.options.vipStaff == message.author.id && (Date.now() - staffData.options.vipDate) < 24 * 3600 *1000 );
         
+        if(!Owners.includes(message.author.id) && !message.member.hasPermission(8) && !security) return message.channel.error(message, Embed.setDescription(`Belirtilen üyenin hesabı yakın bir zamanda açıldığı için vip alınmaya uygun değildir, lütfen \`Yönetici\` yetkisine sahip yetkililere ulaş!`), { timeout: 10000 , react: true });
         if(!Owners.includes(message.author.id) && !message.member.hasPermission(8) && userPenals.length && userPenals.length >= penalBlockLimit) return message.channel.error(message, Embed.setDescription(`Belirttiğin üye **${userPenals.length}** ceza kaydına sahip. Sunucu güvenliği için vip alınamaz, lütfen \`Yönetici\` yetkisine sahip yetkililere ulaş!`), { timeout: 8000, react: true });
         if(!Owners.includes(message.author.id) && !message.member.hasPermission(8) && userPoint && penalPointBlockLimit && userPoint.penalPoint >= penalPointBlockLimit) return message.channel.error(message, Embed.setDescription(`Belirttiğin üye **${userPoint.penalPoint}** ceza puanına sahip. Sunucu güvenliği için vip alınamaz, lütfen \`Yönetici\` yetkisine sahip yetkililere ulaş!`), { timeout: 10000, react: true });
         if(!Owners.includes(message.author.id) && !message.member.hasPermission(8) && dailyVipLimit > 0 && staffDatas.length && staffDatas.length >= dailyVipLimit) return message.channel.error(message, Embed.setDescription(`Günlük vip sınırına ulaştın!`), { timeout: 8000, react: true });

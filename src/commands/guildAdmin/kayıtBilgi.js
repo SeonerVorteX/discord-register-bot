@@ -36,7 +36,7 @@ module.exports = {
         let staff = await client.fetchUser(register.staffID);
 
         message.channel.success(message, Embed.setThumbnail(user.avatarURL({ dynamic: true })).setDescription(`
-${success ? success : ``} \`${row}\` sıralı kaydın bilgileri :
+${success ? success : ``} \`${row}\` sıralı${register.gender && register.gender == 'MAN' ? ` **erkek**` : register.gender && register.gender == 'WOMAN' ? ` **kadın**` : ``} kaydın bilgileri :
 
 **Kayıt Edilen Üye :** ${user.toString()}
 **Kayıt Eden Yetkili :** ${staff.toString()} ${register.nameArray.length ? `\n**Kayıt Edildiği Son İsim :** \`${register.nameArray[register.nameArray.length-1].name}\`` : ``}

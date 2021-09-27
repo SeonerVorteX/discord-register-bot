@@ -46,8 +46,8 @@ module.exports = {
                 if(dataArray.length >= 30) dataArray.splice(0, 20);
 
                 let firstPage = `
-Bu hafta toplam **${datas.length}** kayıt işlemi gerçekleştirildi ${authorRank+1 !== 0 ? ` ve Siz **${authorRank+1}.** sıradasınız` : ``}
-Top ${rank} kayıt sıralaması aşağıda belirtilmiştir :
+Bu hafta ${datas.length ? `toplam **${datas.length}** kayıt işlemi gerçekleştirildi ${authorRank+1 !== 0 ? ` ve Siz **${authorRank+1}.** sıradasınız` : ``}` : `hiçbir kayıt işlemi gerçekleştirilmemiş`} 
+${datas.length ? `Top ${rank} kayıt sıralaması aşağıda belirtilmiştir :` : ``}
                     
 ${dataArray.map((data, index) => `**[\`${index+1}\`]** ${message.guild.members.cache.has(data) ? message.guild.members.cache.get(data).toString() : `<@${data}>`}: \`${Objects[data]} Kayıt\` ${data == message.author.id ? `**(Siz)**` : ``}`).join('\n')}
                 `;
@@ -87,7 +87,8 @@ ${pages[currentPage-1].map((data) => `**[\`${top.indexOf(data)+1}\`]** ${message
                         if (msg) msg.edit(Embed.setDescription(`
 Haftalık Top ${rank} kayıt sıralaması :
                     
-${pages[currentPage-1].map((data) => `**[\`${top.indexOf(data)+1}\`]** ${message.guild.members.cache.has(data) ? message.guild.members.cache.get(data).toString() : `<@${data}>`}: \`${Objects[data]} Kayıt\` ${data == message.author.id ? `**(Siz)**` : ``}`).join('\n')}                        `).setFooter(`${Footer} • Sayfa : ${currentPage}`)).catch(err => {});
+${pages[currentPage-1].map((data) => `**[\`${top.indexOf(data)+1}\`]** ${message.guild.members.cache.has(data) ? message.guild.members.cache.get(data).toString() : `<@${data}>`}: \`${Objects[data]} Kayıt\` ${data == message.author.id ? `**(Siz)**` : ``}`).join('\n')}
+                        `).setFooter(`${Footer} • Sayfa : ${currentPage}`)).catch(err => {});
 
                     });
                             
@@ -137,8 +138,8 @@ ${pages[currentPage-1].map((data) => `**[\`${top.indexOf(data)+1}\`]** ${message
                 if(dataArray.length >= 30) dataArray.splice(0, 20);
 
                 let firstPage = `
-Bu hafta toplam **${datas.length}** kayıt işlemi gerçekleştirildi ${authorRank+1 !== 0 ? ` ve Siz **${authorRank+1}.** sıradasınız` : ``}
-Top ${rank} kayıt sıralaması aşağıda belirtilmiştir :
+Bu hafta ${datas.length ? `toplam **${datas.length}** kayıt işlemi gerçekleştirildi ${authorRank+1 !== 0 ? ` ve Siz **${authorRank+1}.** sıradasınız` : ``}` : `hiçbir kayıt işlemi gerçekleştirilmemiş`} 
+${datas.length ? `Top ${rank} kayıt sıralaması aşağıda belirtilmiştir :` : ``}
                     
 ${dataArray.map((data, index) => `**[\`${index+1}\`]** ${message.guild.members.cache.has(data) ? message.guild.members.cache.get(data).toString() : `<@${data}>`}: \`${Objects[data]} Kayıt\` ${data == message.author.id ? `**(Siz)**` : ``}`).join('\n')}
                 `;
@@ -178,7 +179,8 @@ ${pages[currentPage-1].map((data) => `**[\`${top.indexOf(data)+1}\`]** ${message
                         if (msg) msg.edit(Embed.setDescription(`
 Haftalık Top ${rank} kayıt sıralaması :
                     
-${pages[currentPage-1].map((data) => `**[\`${top.indexOf(data)+1}\`]** ${message.guild.members.cache.has(data) ? message.guild.members.cache.get(data).toString() : `<@${data}>`}: \`${Objects[data]} Kayıt\` ${data == message.author.id ? `**(Siz)**` : ``}`).join('\n')}                        `).setFooter(`${Footer} • Sayfa : ${currentPage}`)).catch(err => {});
+${pages[currentPage-1].map((data) => `**[\`${top.indexOf(data)+1}\`]** ${message.guild.members.cache.has(data) ? message.guild.members.cache.get(data).toString() : `<@${data}>`}: \`${Objects[data]} Kayıt\` ${data == message.author.id ? `**(Siz)**` : ``}`).join('\n')}
+                        `).setFooter(`${Footer} • Sayfa : ${currentPage}`)).catch(err => {});
 
                     });
                             
@@ -231,8 +233,8 @@ ${pages[currentPage-1].map((data) => `**[\`${top.indexOf(data)+1}\`]** ${message
             if(dataArray.length >= 30) dataArray.splice(0, 20);
 
             let firstPage = `
-Bu gün toplam **${datas.length}** kayıt işlemi gerçekleştirildi ${authorRank+1 !== 0 ? ` ve Siz **${authorRank+1}.** sıradasınız` : ``}
-Top ${rank} kayıt sıralaması aşağıda belirtilmiştir :
+Bu gün ${datas.length ? `toplam **${datas.length}** kayıt işlemi gerçekleştirildi ${authorRank+1 !== 0 ? ` ve Siz **${authorRank+1}.** sıradasınız` : ``}` : `hiçbir kayıt işlemi gerçekleştirilmemiş`} 
+${datas.length ? `Top ${rank} kayıt sıralaması aşağıda belirtilmiştir :` : ``}
                     
 ${dataArray.map((data, index) => `**[\`${index+1}\`]** ${message.guild.members.cache.has(data) ? message.guild.members.cache.get(data).toString() : `<@${data}>`}: \`${Objects[data]} Kayıt\` ${data == message.author.id ? `**(Siz)**` : ``}`).join('\n')}
             `;
@@ -324,8 +326,8 @@ ${pages[currentPage-1].map((data) => `**[\`${top.indexOf(data)+1}\`]** ${message
             if(dataArray.length >= 30) dataArray.splice(0, 20);
 
             let firstPage = `
-Bu ay toplam **${datas.length}** kayıt işlemi gerçekleştirildi ${authorRank+1 !== 0 ? ` ve Siz **${authorRank+1}.** sıradasınız` : ``}
-Top ${rank} kayıt sıralaması aşağıda belirtilmiştir :
+Bu ay ${datas.length ? `toplam **${datas.length}** kayıt işlemi gerçekleştirildi ${authorRank+1 !== 0 ? ` ve Siz **${authorRank+1}.** sıradasınız` : ``}` : `hiçbir kayıt işlemi gerçekleştirilmemiş`} 
+${datas.length ? `Top ${rank} kayıt sıralaması aşağıda belirtilmiştir :` : ``}
                     
 ${dataArray.map((data, index) => `**[\`${index+1}\`]** ${message.guild.members.cache.has(data) ? message.guild.members.cache.get(data).toString() : `<@${data}>`}: \`${Objects[data]} Kayıt\` ${data == message.author.id ? `**(Siz)**` : ``}`).join('\n')}
             `;
@@ -416,8 +418,8 @@ ${pages[currentPage-1].map((data) => `**[\`${top.indexOf(data)+1}\`]** ${message
             if(dataArray.length >= 30) dataArray.splice(0, 20);
 
             let firstPage = `
-Şimdiye kadar toplam **${datas.length}** kayıt işlemi gerçekleştirildi ${authorRank+1 !== 0 ? ` ve Siz **${authorRank+1}.** sıradasınız` : ``}
-Top ${rank} kayıt sıralaması aşağıda belirtilmiştir :
+Şimdiye kadar ${datas.length ? `toplam **${datas.length}** kayıt işlemi gerçekleştirildi ${authorRank+1 !== 0 ? ` ve Siz **${authorRank+1}.** sıradasınız` : ``}` : `hiçbir kayıt işlemi gerçekleştirilmemiş`} 
+${datas.length ? `Top ${rank} kayıt sıralaması aşağıda belirtilmiştir :` : ``}
                     
 ${dataArray.map((data, index) => `**[\`${index+1}\`]** ${message.guild.members.cache.has(data) ? message.guild.members.cache.get(data).toString() : `<@${data}>`}: \`${Objects[data]} Kayıt\` ${data == message.author.id ? `**(Siz)**` : ``}`).join('\n')}
             `;
