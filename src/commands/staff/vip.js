@@ -45,7 +45,7 @@ module.exports = {
         if(user.roles.highest.position >= message.member.roles.highest.position) return message.channel.error(message, Embed.setDescription(`Seninle aynı veya daha yüksek rolde olan birine bu işlemi uygulayamazsın!`), { react: true });
         if(user.roles.cache.has(vipRole)) return message.channel.error(message, Embed.setDescription(`Belirttiğin üye zaten vip rolüne sahip!`), { timeout: 8000, react: true });
 
-        let security = await client.checkSecurity(member.user, quarantineDateLimit);
+        let security = await client.checkSecurity(user.user, quarantineDateLimit);
         let userPenals = await penals.find({ guildID: message.guild.id, userID: user.id });
         let userPoint = await penalPoints.findOne({ guildID: message.guild.id, userID: user.id });
         let staffDatas = await registers.find({ guildID: message.guild.id });

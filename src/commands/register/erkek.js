@@ -44,7 +44,7 @@ module.exports = {
         if(user.roles.highest.position >= message.member.roles.highest.position) return message.channel.error(message, Embed.setDescription(`Seninle aynı veya daha yüksek rolde olan birine bu işlemi uygulayamazsın!`), { react: true });
         if(user.roles.cache.has(manRole) || user.roles.cache.has(womanRole)) return message.channel.error(message, Embed.setDescription(`Belirttiğin üye zaten kayıtlı!`), { timeout: 8000, react: true });
         
-        let security = await client.checkSecurity(member.user, quarantineDateLimit);
+        let security = await client.checkSecurity(user.user, quarantineDateLimit);
         let userPenals = await penals.find({ guildID: message.guild.id, userID: user.id });
         let userPoint = await penalPoints.findOne({ guildID: message.guild.id, userID: user.id });
         let staffDatas = await registers.find({ guildID: message.guild.id, staffID: message.author.id });

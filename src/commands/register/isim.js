@@ -39,7 +39,7 @@ module.exports = {
         if(staffs.some(role => user.roles.cache.has(role)) || user.roles.cache.has(botYt) || user.hasPermission('MANAGE_ROLES')) return message.channel.error(message, Embed.setDescription(`Yetkili birine bu işlemi uygulayamazsın!`), { timeout: 8000, react: true });
         if(user.roles.highest.position >= message.member.roles.highest.position) return message.channel.error(message, Embed.setDescription(`Seninle aynı veya daha yüksek rolde olan birine bu işlemi uygulayamazsın!`), { react: true });
         
-        let security = await client.checkSecurity(member.user, quarantineDateLimit);
+        let security = await client.checkSecurity(user.user, quarantineDateLimit);
         let userPenals = await penals.find({ guildID: message.guild.id, userID: user.id });
         let penalPoint = await penalPoints.findOne({ guildID: message.guild.id, userID: user.id });
         let staffDatas = await registers.find({ guildID: message.guild.id });
