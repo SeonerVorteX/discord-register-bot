@@ -4,7 +4,9 @@
   "description": "Gelişmiş Kayıt Botu",
   "main": "vortex.js",
   "scripts": {
-    "test": "node vortex.js"
+    "test": "node vortex.js",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix"
   },
   "repository": {
     "type": "git",
