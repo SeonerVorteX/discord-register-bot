@@ -4,107 +4,105 @@ const { mark, crown, success, loading } = require('../../configs/emojis.json');
 const roleLog = require('../../schemas/roleLog.js');
 
 module.exports = {
-	name: 'taglı',
-	aliases: [],
-	category: 'Admin',
-	usage: '[ver / al]',
-	permission: 'ADMINISTRATOR',
-	guildOnly: true,
-	cooldown: 3,
+    name: 'taglı',
+    aliases: [],
+    category: 'Admin',
+    usage: '[ver / al]',
+    permission: 'ADMINISTRATOR',
+    guildOnly: true,
+    cooldown: 3,
 
-	/**
-     * @param { Client } client
-     * @param { Message } message
-     * @param { Array<String> } args
-     * @param { MessageEmbed } Embed
+    /**
+     * @param { Client } client 
+     * @param { Message } message 
+     * @param { Array<String> } args 
+     * @param { MessageEmbed } Embed 
      */
 
-	async execute(client, message, args, Embed) {
+    async execute(client, message, args, Embed) {
 
-		if(!guildTags.length && !guildDiscriminator) return message.channel.error(message, Embed.setDescription('Bu sunucu için herhangi bir tag ayarlanmamış, lütfen botun yapımcısıyla iletişime geçin!'), { timeout: 15000, react: true });
+        if(!guildTags.length && !guildDiscriminator) return message.channel.error(message, Embed.setDescription(`Bu sunucu için herhangi bir tag ayarlanmamış, lütfen botun yapımcısıyla iletişime geçin!`), { timeout: 15000, react: true });
 
-		if(!args[0]) {
+        if(!args[0]) {
 
-			message.channel.success(message, Embed.setDescription(`
+            message.channel.success(message, Embed.setDescription(`
 ${guildTags.length ? guildTags.map(tag => {
-		const members = message.guild.members.cache.filter(member => member.user.username.includes(tag));
-		return `${crown ? crown : ''} Sunucumuzda \`${tag}\` tagına sahip ${members.size ? `toplam **${members.size}** üye bulunuyor!` : 'herhangi bir üye bulunmuyor!'}`;
-	}).join('\n') : ''}
+    let members = message.guild.members.cache.filter(member => member.user.username.includes(tag));
+    return `${crown ? crown : ``} Sunucumuzda \`${tag}\` tagına sahip ${members.size ? `toplam **${members.size}** üye bulunuyor!` : `herhangi bir üye bulunmuyor!`}`;
+}).join(`\n`) : ``}
 ${guildDiscriminator ? function() {
-		const members = message.guild.members.cache.filter(member => member.user.discriminator == guildDiscriminator);
-		return `${crown ? crown : ''} Sunucumuzda \`#${guildDiscriminator}\` etiketimize sahip ${members.size ? `toplam **${members.size}** üye bulunuyor!` : 'herhangi bir üye bulunmuyor!'}`;
-	}() : ''}
+    let members = message.guild.members.cache.filter(member => member.user.discriminator == guildDiscriminator);
+    return `${crown ? crown : ``} Sunucumuzda \`#${guildDiscriminator}\` etiketimize sahip ${members.size ? `toplam **${members.size}** üye bulunuyor!` : `herhangi bir üye bulunmuyor!`}`
+}() : ``}
         `), { react: true });
 
-		}
-		else if (['ver', 'dağıt'].some(arg => args[0].toLowerCase() == arg)) {
+        } else if (['ver', 'dağıt'].some(arg => args[0].toLowerCase() == arg)) {
 
-			const role = message.guild.roles.cache.get(familyRole);
+            let role = message.guild.roles.cache.get(familyRole);
 
-			if(!familyRole || !role) return message.channel.error(message, Embed.setDescription('Ekip rolü ayarlanmamış, lütfen botun yapımcısıyla iletişime geçin!'), { timeout: 15000, react: true });
+            if(!familyRole || !role) return message.channel.error(message, Embed.setDescription(`Ekip rolü ayarlanmamış, lütfen botun yapımcısıyla iletişime geçin!`), { timeout: 15000, react: true });
 
-			const members = message.guild.members.cache.filter(member => !member.roles.cache.has(familyRole) && (guildTags.some(tag => member.user.username.includes(tag)) || member.user.discriminator == guildDiscriminator));
-			const size = members.size;
-			let index = 0;
+            let members = message.guild.members.cache.filter(member => !member.roles.cache.has(familyRole) && (guildTags.some(tag => member.user.username.includes(tag)) || member.user.discriminator == guildDiscriminator));
+            let size = members.size;
+            let index = 0;
 
-			if(!members.size) return message.channel.error(message, Embed.setDescription('Sunucuda tagı olup ekip rolü olmayan bir üye bulunmuyor!'), { timeout: 8000, react: true });
+            if(!members.size) return message.channel.error(message, Embed.setDescription(`Sunucuda tagı olup ekip rolü olmayan bir üye bulunmuyor!`), { timeout: 8000, react: true });
+            
+            if(mark) message.react(mark);
+            message.channel.send(Embed.setDescription(`Sunucudaki tagı olup ekip rolü olmayan üyelere ${role.toString()} rolü **veriliyor** ${loading ? loading : ``}`)).then(async msg => {
 
-			if(mark) message.react(mark);
-			message.channel.send(Embed.setDescription(`Sunucudaki tagı olup ekip rolü olmayan üyelere ${role.toString()} rolü **veriliyor** ${loading ? loading : ''}`)).then(async msg => {
+                await new Promise(async (resolve) => {
 
-				await new Promise(async (resolve) => {
+                    members.forEach(async member => {
 
-					members.forEach(async member => {
+                        index += 1;
+                        await client.wait(index * 250);
+                        member.roles.add(familyRole);
+                        await new roleLog({ guildID: message.guild.id, staffID: message.author.id, userID: member.id, roleID: familyRole, date: Date.now(), type: 'ROLE-ADD' }).save();
 
-						index += 1;
-						await client.wait(index * 250);
-						member.roles.add(familyRole);
-						await new roleLog({ guildID: message.guild.id, staffID: message.author.id, userID: member.id, roleID: familyRole, date: Date.now(), type: 'ROLE-ADD' }).save();
+                    });
+                    await client.wait(size * 250).then(() => resolve());
 
-					});
-					await client.wait(size * 250).then(() => resolve());
+                });
 
-				});
+                msg.edit(Embed.setDescription(`${success ? success : ``} Sunucudaki tagı olup ekip rolü olmayan **${size}** üyeye ${role.toString()} rolü **verildi!**`));
 
-				msg.edit(Embed.setDescription(`${success ? success : ''} Sunucudaki tagı olup ekip rolü olmayan **${size}** üyeye ${role.toString()} rolü **verildi!**`));
+            });
 
-			});
+        } else if (['al'].some(arg => args[0].toLowerCase() == arg)) {
 
-		}
-		else if (['al'].some(arg => args[0].toLowerCase() == arg)) {
+            let role = message.guild.roles.cache.get(familyRole);
 
-			const role = message.guild.roles.cache.get(familyRole);
+            if(!familyRole || !role) return message.channel.error(message, Embed.setDescription(`Ekip rolü ayarlanmamış, lütfen botun yapımcısıyla iletişime geçin!`), { timeout: 15000, react: true });
 
-			if(!familyRole || !role) return message.channel.error(message, Embed.setDescription('Ekip rolü ayarlanmamış, lütfen botun yapımcısıyla iletişime geçin!'), { timeout: 15000, react: true });
+            let members = message.guild.members.cache.filter(member => member.roles.cache.has(familyRole) && !guildTags.some(tag => member.user.username.includes(tag)) && member.user.discriminator !== guildDiscriminator);
+            let size = members.size;
+            let index = 0;
 
-			const members = message.guild.members.cache.filter(member => member.roles.cache.has(familyRole) && !guildTags.some(tag => member.user.username.includes(tag)) && member.user.discriminator !== guildDiscriminator);
-			const size = members.size;
-			let index = 0;
+            if(!members.size) return message.channel.error(message, Embed.setDescription(`Sunucuda tagı olmadığı halde ekip rolü olan bir üye bulunmuyor!`), { timeout: 8000, react: true });
+            
+            if(mark) message.react(mark);
+            message.channel.send(Embed.setDescription(`Sunucudaki tagı olmadığı halde ekip rolü olan üyelerden ${role.toString()} rolü **alınıyor** ${loading ? loading : ``}`)).then(async msg => {
 
-			if(!members.size) return message.channel.error(message, Embed.setDescription('Sunucuda tagı olmadığı halde ekip rolü olan bir üye bulunmuyor!'), { timeout: 8000, react: true });
+                await new Promise(async (resolve) => {
 
-			if(mark) message.react(mark);
-			message.channel.send(Embed.setDescription(`Sunucudaki tagı olmadığı halde ekip rolü olan üyelerden ${role.toString()} rolü **alınıyor** ${loading ? loading : ''}`)).then(async msg => {
+                    members.forEach(async member => {
 
-				await new Promise(async (resolve) => {
+                        index += 1;
+                        await client.wait(index * 250);
+                        member.roles.remove(familyRole);
+                        await new roleLog({ guildID: message.guild.id, staffID: message.author.id, userID: member.id, roleID: familyRole, date: Date.now(), type: 'ROLE-REMOVE' }).save();
 
-					members.forEach(async member => {
+                    });
+                    await client.wait(size * 250).then(() => resolve());
 
-						index += 1;
-						await client.wait(index * 250);
-						member.roles.remove(familyRole);
-						await new roleLog({ guildID: message.guild.id, staffID: message.author.id, userID: member.id, roleID: familyRole, date: Date.now(), type: 'ROLE-REMOVE' }).save();
+                });
 
-					});
-					await client.wait(size * 250).then(() => resolve());
+                msg.edit(Embed.setDescription(`${success ? success : ``} Sunucudaki tagı olmadığı halde ekip rolü olan **${size}** üyeden ${role.toString()} rolü **alındı!**`));
 
-				});
+            });
 
-				msg.edit(Embed.setDescription(`${success ? success : ''} Sunucudaki tagı olmadığı halde ekip rolü olan **${size}** üyeden ${role.toString()} rolü **alındı!**`));
+        };
 
-			});
-
-		}
-
-	},
+    },
 };
