@@ -101,7 +101,7 @@ module.exports = {
 
             } else {
 
-                if(user.roles.cache.has(manRole)) data = await client.newRegister(true, 'MAN', message.guild.id, user.id, message.author.id, [{ name: user.displayName, staffID: message.author.id, date: Date.now() }], Date.now(), { role: manRole });
+                if(user.roles.cache.has(manRole)) data = await client.newRegister(true, 'MAN', message.guild.id, user.id, message.author.id, Date.now(), [{ name: user.displayName, staffID: message.author.id, date: Date.now() }], { role: manRole });
                 else data = await client.newRegister(true, 'WOMAN', message.guild.id, user.id, message.author.id, Date.now(), [{ name: user.displayName, staffID: message.author.id, date: Date.now() }], { role: womanRole });
                 
             };
