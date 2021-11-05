@@ -49,7 +49,7 @@ module.exports = {
 
                     });
 
-                    await client.wait(size * 250).then(() => resolve());
+                    await client.wait(size * 250).then(resolve);
 
                 });
 

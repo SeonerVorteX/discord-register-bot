@@ -62,7 +62,7 @@ module.exports = async (client) => {
      * @param { Number } ms 
      */
 
-    client.wait = (ms) => new Promise((resolve) => setTimeout(resolve(), ms));
+    client.wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
     /**
      * @param { Number } time 

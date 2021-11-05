@@ -61,7 +61,7 @@ ${guildDiscriminator ? function() {
                         await new roleLog({ guildID: message.guild.id, staffID: message.author.id, userID: member.id, roleID: familyRole, date: Date.now(), type: 'ROLE-ADD' }).save();
 
                     });
-                    await client.wait(size * 250).then(() => resolve());
+                    await client.wait(size * 250).then(resolve);
 
                 });
 
@@ -94,7 +94,7 @@ ${guildDiscriminator ? function() {
                         await new roleLog({ guildID: message.guild.id, staffID: message.author.id, userID: member.id, roleID: familyRole, date: Date.now(), type: 'ROLE-REMOVE' }).save();
 
                     });
-                    await client.wait(size * 250).then(() => resolve());
+                    await client.wait(size * 250).then(resolve);
 
                 });
 
