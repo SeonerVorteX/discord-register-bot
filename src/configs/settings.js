@@ -8,15 +8,15 @@
     //General Settings
     client.settings = {
 
-        "Prefix": ".",
-        "Token": "",
-        "Owners": [],
-        "VoiceChannel": "",
-        "Activity": "WATCHING",
-        "Status": "dnd",
-        "MongoURL": "",
-        "Footer": "SeonerVorteX",
-        "DisableCooldownsForAdmins": true,
+        Prefix: ".",
+        Token: "",
+        Owners: [],
+        VoiceChannel: "",
+        Activity: "WATCHING",
+        Status: "dnd",
+        MongoURL: "",
+        Footer: "SeonerVorteX",
+        DisableCooldownsForAdmins: true,
 
     };
 
