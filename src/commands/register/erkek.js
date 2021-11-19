@@ -57,10 +57,10 @@ module.exports = {
         if(!user.manageable) return message.channel.error(message, Embed.setDescription(`Belirttiğin üyeyi kayıt edemiyorum!`), { timeout: 8000, react: true });
         if(requireTag && (!vipRole || !user.roles.cache.has(vipRole)) && ((guildTags.length && !guildTags.some(tag => user.user.username.includes(tag))) && (guildDiscriminator && user.user.discriminator !== guildDiscriminator))) return message.channel.error(message, Embed.setDescription(`Sunucumuz şuanda taglı alımdadır. Bu yüzden kayıt için üyenin tag alması veya vip alınması gerekiyor!`), { timeout: 10000, react: true });
 
-		otherManRoles.push(manRole);
-        user.roles.add(otherManRoles);
+        otherManRoles.push(manRole);
+        await user.roles.add(otherManRoles);
 
-        if(unregisterRole && user.roles.cache.has(unregisterRole)) user.roles.remove(unregisterRole);
+        if(unregisterRole && user.roles.cache.has(unregisterRole)) await user.roles.remove(unregisterRole);
 
         let data = await registers.findOne({ completed: false, guildID: message.guild.id, userID: user.id, });
 
