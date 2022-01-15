@@ -36,7 +36,7 @@ ${rules ? rules : `:scroll:`} Sunucu kurallarımız ${rulesChannel ? rulesChanne
 ${success ? `${success} ` : ``} Sunucumuzun **${member.guild.memberCount}.** üyesisin. ${(guildTags.length && guildTags.length == 1 && !guildDiscriminator) || (guildDiscriminator && !guildTags.length) ? `Tagımızı (\`${guildTags.length ? guildTags[0] : `#${guildDiscriminator}`}\`)` : (guildTags.length && guildTags.length > 1) || (guildTags.length && guildDiscriminator) ? `Taglarımızdan (${guildTags.map(tag => `\`${tag}\``).join(' , ')}${guildDiscriminator ? ` , \`#${guildDiscriminator}\`` : ``}) birini` : `Tagımızı`} alarak bizlere destek ola bilirsin!
 
 ${security ? `**➤ Soldaki ses teyit odalarından birine girerek, ${staffRole ? `${staffRole.toString()} rolüne sahip ` : ``}yetkililerimize teyit verip kayıt ola bilirsin!**` : `**➤ Maalesef, hesabın yakın bir zamanda açıldığı için sunucumuza kayıt olamazsın!**`}
-    `, { name: 'Welcome To Server', avatar: client.user.avatarURL() });
+    `, { name: 'Welcome To The Server', avatar: client.user.avatarURL() });
 
     if(log) log.send(`**${member.user.tag}** (\`${member.id}\`) adlı kullanıcı sunucuya katıldı ve üye sayısı **${member.guild.memberCount}** kişiye ulaştı!`);
     if((guildTags.length && guildTags.some(tag => member.user.username.includes(tag))) || (guildDiscriminator && member.user.discriminator == guildDiscriminator)) {
