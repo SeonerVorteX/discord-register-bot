@@ -1,5 +1,5 @@
 const { Prefix } = global.client.settings;
-const { unregisterRole } = global.client.guildSettings.unregister;
+const { unregisterRole, unregisterName } = global.client.guildSettings.unregister;
 const { mark, loading, success } = require('../../configs/emojis.json');
 const roleLog = require('../../schemas/roleLog.js');
 
@@ -43,13 +43,14 @@ module.exports = {
                     members.forEach(async member => {
 
                         index += 1;
-                        await client.wait(index * 250);
-                        member.roles.set([unregisterRole]);
+                        await client.wait(index * 300);
+                        await member.roles.set([unregisterRole]);
+                        await member.setNickname(unregisterName);
                         await new roleLog({ guildID: message.guild.id, staffID: message.author.id, userID: member.id, roleID: unregisterRole, date: Date.now(), type: 'ROLE-ADD' }).save();
 
                     });
 
-                    await client.wait(size * 250).then(resolve);
+                    await client.wait(size * 300).then(resolve);
 
                 });
 
