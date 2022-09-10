@@ -277,7 +277,7 @@ module.exports = async (client) => {
      * @param { Object } options 
      */
 
-     TextChannel.prototype.success = function (message, text, options = new Object()) {
+    TextChannel.prototype.success = function (message, text, options = new Object()) {
 
         if(!message) throw new ReferenceError('Message Is Not Defined');
         if(!text) throw new ReferenceError('Text Is Not Defined');
@@ -366,7 +366,7 @@ module.exports = async (client) => {
      * @param { Object } options 
      */
 
-     DMChannel.prototype.success = function (message, text, options = new Object()) {
+    DMChannel.prototype.success = function (message, text, options = new Object()) {
 
         if(!message) throw new ReferenceError('Message Is Not Defined');
         if(!text) throw new ReferenceError('Text Is Not Defined');
