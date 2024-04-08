@@ -2,7 +2,7 @@
 <img src="https://media.discordapp.net/attachments/836467887928639498/1226867125206122568/image.png?ex=6626540c&is=6613df0c&hm=4841c9a05819b5ea0ad035294dade25352ba6cf9ba0258d836ea24aafab13e50&=&format=webp">
 <img src="https://media.discordapp.net/attachments/836467887928639498/1226867125428424795/image.png?ex=6626540c&is=6613df0c&hm=abb4d3f44f9e2c59cafcfd87d8f255f5edd9733fd617c20e55207eb9f36ddc1a&=&format=webp">
 <img src="https://media.discordapp.net/attachments/836467887928639498/1226867125675626507/image.png?ex=6626540c&is=6613df0c&hm=9297b6850e2e092d5925ea184b19670cb30cb8f2bfc72d8fc05b30ba6334fe2d&=&format=webp">
-<img src="https://media.discordapp.net/attachments/836467887928639498/1226868714880634991/image.png?ex=66265587&is=6613e087&hm=4450758184292abc033fcafde2f8a7e6bafcea5d0f83b78b8d02199b2ad89b26&=&format=webp">
+<img src="https://media.discordapp.net/attachments/836467887928639498/1226870219629264997/image.png?ex=662656ee&is=6613e1ee&hm=01f6f564c5a6f25f84ddfb1685a7cfffe11ffe9975cbdcaa64bb5ca0e19ec72a&=&format=webp">
 
 # ✨ Kurulum
 ### Projeyi botunuzda kullanmak için bazı işlemler yapmanız gerekiyor. Aşağıdaki yönlendirmeleri takip ederek bunu yapabilirsiniz :
